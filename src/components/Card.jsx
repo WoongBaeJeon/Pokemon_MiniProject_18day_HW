@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FavoriteBtn from "./FavoriteBtn";
-import { memo } from "react";
+import { memo, useState } from "react";
 
-const CardContainer = styled.section`
+const CardContainer = styled.article`
   width: 150px;
   border: 1px solid gray;
   display: flex;
@@ -12,6 +12,7 @@ const CardContainer = styled.section`
   align-items: center;
   border-radius: 10px;
   padding-bottom: 10px;
+  cursor: pointer;
 
   img {
     width: 130px;
@@ -19,14 +20,26 @@ const CardContainer = styled.section`
 `;
 
 export const Card = memo(({ pokemon }) => {
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const navigate = useNavigate();
+
   return (
     <CardContainer onClick={() => navigate(`/detail/${pokemon.id}`)}>
-      <img src={pokemon.imgFront} alt="" />
-      <div>
+      {isImageLoading ? (
+        <div className="w-[130px] h-[130px] leading-[130px} text-center">
+          로딩중...
+        </div>
+      ) : null}
+      <img
+        onLoad={() => setIsImageLoading(false)}
+        src={pokemon.imgFront}
+        alt={`${pokemon.name} 이미지`}
+        style={{ display: isImageLoading ? "none" : "block" }}
+      />
+      <p>
         {pokemon.name}
         <FavoriteBtn pokemonId={pokemon.id} />
-      </div>
+      </p>
     </CardContainer>
   );
 });

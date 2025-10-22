@@ -17,7 +17,7 @@ export default function FavoriteBtn({ pokemonId }) {
             : favoriteSlice.actions.addToFavorite({ pokemonId })
         );
       }}
-      className="text-[red]"
+      className="text-[red] cursor-pointer"
     >
       {isFavoriteState ? "★" : "☆"}
     </button>

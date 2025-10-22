@@ -18,11 +18,5 @@ export default function Search() {
   const pokemon = useSelector(regSelector(reg));
 
   // console.log("search : " + pokemon);
-  return (
-    <>
-      {pokemon.map((el) => (
-        <Card key={el.id} pokemon={el} />
-      ))}
-    </>
-  );
+  return pokemon.map((el) => <Card key={el.id} pokemon={el} />);
 }

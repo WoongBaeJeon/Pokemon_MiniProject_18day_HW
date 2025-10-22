@@ -2,6 +2,8 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import "./Detail.scss";
 import FavoriteBtn from "../components/FavoriteBtn";
+// import { selectPokemonById } from "../RTK/selector";
+import FlipCard from "../components/FilpCard";
 
 export default function Detail() {
   const { pokemonId } = useParams();
@@ -13,15 +15,18 @@ export default function Detail() {
 
   if (!pokemon) return <div>포켓몬을 찾을 수 없습니다.</div>;
 
+  // const pokemon = useSelector(selectPokemonById(Number(pokemonId)));
+
   return (
-    <div className="DetailContainer">
-      <div className="name">
+    <article className="DetailContainer">
+      <p className="name">
         {pokemon.name}
         <FavoriteBtn pokemonId={pokemon.id} />
-      </div>
-      <div className="genus">{pokemon.genus}</div>
-      <div className="des">{pokemon.description}</div>
-      <img src={pokemon.imgFront} />
-    </div>
+      </p>
+      <p className="genus">{pokemon.genus}</p>
+      <p className="des">{pokemon.description}</p>
+      {/* <img src={pokemon.imgFront} /> */}
+      <FlipCard front={pokemon.imgFront} back={pokemon.imgBack} />
+    </article>
   );
 }

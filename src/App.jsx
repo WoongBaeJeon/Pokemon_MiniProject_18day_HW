@@ -1,12 +1,17 @@
-import { useEffect } from "react";
-import "./App.css";
+import { lazy, Suspense, useEffect } from "react";
+import "./App.scss";
 import { useDispatch } from "react-redux";
 import { fetchPokemonDataById } from "./RTK/thunk";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import Favorite from "./pages/Favorite";
-import Search from "./pages/Search";
-import Detail from "./pages/Detail";
-import Main from "./pages/Main";
+// import Favorite from "./pages/Favorite";
+// import Search from "./pages/Search";
+// import Detail from "./pages/Detail";
+// import Main from "./pages/Main";
+
+const Main = lazy(() => import("./pages/Main"));
+const Detail = lazy(() => import("./pages/Detail"));
+const Search = lazy(() => import("./pages/Search"));
+const Favorite = lazy(() => import("./pages/Favorite"));
 /*
     포켓몬 번호 data.id
     포켓몬 이름 data.names.find((el) => el.language.name === "ko").name
@@ -16,6 +21,7 @@ import Main from "./pages/Main";
             (el) => el.language.name === "ko" && el.version.name === "x"
           ).flavor_text 
 */
+
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,33 +32,37 @@ function App() {
 
   return (
     <>
-      <h1 className="text-[100px] text-center">포켓몬 도감</h1>
-      <nav className="flex gap-10 justify-center mb-7 font-bold text-4xl">
-        <Link to={"/"}>메인</Link>
-        {/* <Link to={"/search"}>검색</Link> */}
-        <Link to={"/favorite"}>찜목록</Link>
-        <div>
-          <input
-            onChange={(e) => navigate(`/search?pokemon=${e.target.value}`)}
-            className="border-b-2"
-          />
-        </div>
-      </nav>
+      <header>
+        <h1 className="text-[100px] text-center">포켓몬 도감</h1>
+        <nav className="flex gap-10 justify-center mb-7 font-bold text-4xl">
+          <Link to="/">메인</Link>
+          {/* <Link to={"/search"}>검색</Link> */}
+          <Link to="/favorite">찜목록</Link>
+          <div>
+            <input
+              onChange={(e) => navigate(`/search?pokemon=${e.target.value}`)}
+              className="border-b-2"
+            />
+          </div>
+        </nav>
+      </header>
       <main className="flex flex-wrap justify-center gap-5 p-[10px]">
-        <Routes>
-          <Route path={"/"} element={<Main />}>
-            Main
-          </Route>
-          <Route path={"/detail/:pokemonId"} element={<Detail />}>
-            Detail
-          </Route>
-          <Route path={"/search"} element={<Search />}>
-            search
-          </Route>
-          <Route path={"/favorite"} element={<Favorite />}>
-            favorite
-          </Route>
-        </Routes>
+        <Suspense fallback={<div>로딩중...</div>}>
+          <Routes>
+            <Route path="/" element={<Main />}>
+              Main
+            </Route>
+            <Route path="/detail/:pokemonId" element={<Detail />}>
+              Detail
+            </Route>
+            <Route path="/search" element={<Search />}>
+              search
+            </Route>
+            <Route path="/favorite" element={<Favorite />}>
+              favorite
+            </Route>
+          </Routes>
+        </Suspense>
       </main>
     </>
   );

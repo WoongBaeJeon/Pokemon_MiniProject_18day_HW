@@ -14,11 +14,5 @@ function regSelector() {
 
 export default function Favorite() {
   const pokemon = useSelector(regSelector());
-  return (
-    <>
-      {pokemon.map((el) => (
-        <Card key={el.id} pokemon={el} />
-      ))}
-    </>
-  );
+  return pokemon.map((el) => <Card key={el.id} pokemon={el} />);
 }
