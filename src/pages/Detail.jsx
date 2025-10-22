@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import "./Detail.scss";
+import FavoriteBtn from "../components/FavoriteBtn";
 
 export default function Detail() {
   const { pokemonId } = useParams();
@@ -14,7 +15,10 @@ export default function Detail() {
 
   return (
     <div className="DetailContainer">
-      <div className="name">{pokemon.name}</div>
+      <div className="name">
+        {pokemon.name}
+        <FavoriteBtn pokemonId={pokemon.id} />
+      </div>
       <div className="genus">{pokemon.genus}</div>
       <div className="des">{pokemon.description}</div>
       <img src={pokemon.imgFront} />

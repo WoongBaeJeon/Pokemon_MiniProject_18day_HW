@@ -24,3 +24,19 @@ export const pokemonSlice = createSlice({
       });
   },
 });
+
+export const favoriteSlice = createSlice({
+  name: "Favorite",
+  initialState: [3, 6, 9],
+  reducers: {
+    addToFavorite(state, action) {
+      state.push(action.payload.pokemonId);
+    },
+    removeFromFavorite(state, action) {
+      const index = state.indexOf(action.payload.pokemonId);
+      if (index !== -1) {
+        state.splice(index, 1);
+      }
+    },
+  },
+});

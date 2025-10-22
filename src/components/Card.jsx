@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import FavoriteBtn from "./FavoriteBtn";
+import { memo } from "react";
 
 const CardContainer = styled.section`
   width: 150px;
@@ -16,16 +18,18 @@ const CardContainer = styled.section`
   }
 `;
 
-export const Card = ({ pokemon }) => {
+export const Card = memo(({ pokemon }) => {
   const navigate = useNavigate();
   return (
     <CardContainer onClick={() => navigate(`/detail/${pokemon.id}`)}>
       <img src={pokemon.imgFront} alt="" />
-      <div>{pokemon.name}</div>
-      {/* <div>{pokemon.genus}</div> */}
+      <div>
+        {pokemon.name}
+        <FavoriteBtn pokemonId={pokemon.id} />
+      </div>
     </CardContainer>
   );
-};
+});
 
 // {pokemonData.data.map((el) => (
 //   <section>
